@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using MongoDB.Driver.Linq;
 
 public class MongoDBRepository : IRepository
 {
@@ -24,28 +25,35 @@ public class MongoDBRepository : IRepository
         _playerCollection = database.GetCollection<Player>("players");
         _bsonPlayerCollection = database.GetCollection<BsonDocument>("players");
         _sessionCollection = database.GetCollection<Session>("sessions");
-        _bsonSessionCollection = database.GetCollection<BsonDocument>("sessions");
+        _bsonSessionCollection = database.GetCollection<BsonDocument>("players");
     }
 
-    public Task<Player> CreatePlayer(Player player)
+    public async Task<Player> CreatePlayer(Player player)
     {
+        player.CreationDate = DateTime.Now;
+        player.id = Guid.NewGuid();
+        await _playerCollection.InsertOneAsync(player);
+        return player;
+    }
 
+    public async Task<Player> ModifyPlayer(Guid id, ModifiedPlayer modifiedPlayer)
+    {
+        var filter = Builders<Player>.Filter.Eq(p => p.id,id);
+        var update = Builders<Player>.Update.Set(p =>p.age, modifiedPlayer.age);
+        await _playerCollection.UpdateOneAsync(filter,update);
         return null;
 
     }
 
-    public Task<Player> ModifyPlayer(Guid id, ModifiedPlayer modifiedPlayer)
+
+    public async Task<Session> CreateSession(Session session)
     {
-
-        return null;
-
-    }
-
-
-    public Task<Session> CreateSession(Session session)
-    {
-
-        return null;
+        session.EndTime = DateTime.Now;
+        TimeSpan dif = session.EndTime-session.StartTime;
+        session.LenghtInSeconds = (int)dif.TotalSeconds;
+        await _sessionCollection.InsertOneAsync(session);
+        
+        return session;
 
     }
 
