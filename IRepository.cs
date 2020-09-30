@@ -28,4 +28,8 @@ public interface IRepository
 
     Task<float?> GetAverageDeathsPerSession();
 
+    Task<float?> GetMedianWinsPerSession();
+
+    Task<float?> GetAverageWinsPerSession();
+
 }

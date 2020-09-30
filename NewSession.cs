@@ -5,7 +5,7 @@ public class NewSession
 
 
 
-    Player player { get; set; }
+    Guid playerId { get; set; }
     DateTime StartTime { get; set; }
     DateTime endTime { get; set; }
 

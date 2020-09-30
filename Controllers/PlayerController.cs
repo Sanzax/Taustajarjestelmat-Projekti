@@ -21,35 +21,78 @@ namespace Taustajarjestelmat_Projekti.Controllers
             _logger = logger;
             _repository = repository;
         }
-
         [HttpPost]
-        public Task<Player> CreatePlayer([FromBody] NewPlayer player)
+        [Route("Create")]
+        public async Task<Player> CreatePlayer([FromBody] Player player)
         {
-
-
-
-            return null;
+            return await _repository.CreatePlayer(player);
 
         }
         [HttpPost]
-        public Task<Player> ModifyPlayer(Guid id, [FromBody] ModifiedPlayer modifiedPlayer)
+        [Route("Modify/{id}")]
+        public async Task<Player> ModifyPlayer(Guid id, [FromBody] ModifiedPlayer modifiedPlayer)
         {
 
-            return null;
+            return await _repository.ModifyPlayer(id, modifiedPlayer);
 
         }
 
-        [HttpGet]
-        public Task<Nationality[]> GetTopNationalities(int n)
+        [HttpPost]
+        [Route("CreateSession")]
+        public async Task<Session> CreateSession([FromBody] Session session)
         {
 
-            return null;
+            return await _repository.CreateSession(session);
 
         }
 
+
+        public Task<NationalityCount[]> GetTopNationalities(int n)
+        {
+
+            return _repository.GetTopNationalities(n);
+
+        }
+
+        public Task<float?> GetSessionMedianLength()
+        {
+
+            return _repository.GetSessionMedianLength();
+
+        }
+
+        public Task<float?> GetSessionAverageLength()
+        {
+
+            return _repository.GetSessionAverageLength();
+
+        }
+
+        public Task<float?> GetMedianStartsPerSession()
+        {
+
+            return _repository.GetMedianStartsPerSession();
+
+        }
+
+        public Task<float?> GetAverageStartsPerSession()
+        {
+
+            return _repository.GetAverageStartsPerSession();
+
+        }
+
+        public Task<float?> GetMedianDeathsPerSession()
+        {
+            return _repository.GetMedianDeathsPerSession();
+        }
+
+        public Task<float?> GetAverageDeathsPerSession()
+        {
+
+            return _repository.GetAverageDeathsPerSession();
+
+        }
 
     }
-
-
-
 }
