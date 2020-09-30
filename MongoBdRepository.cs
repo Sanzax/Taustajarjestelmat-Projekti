@@ -49,8 +49,6 @@ public class MongoDBRepository : IRepository
     public async Task<Session> CreateSession(Session session)
     {
         session.EndTime = DateTime.Now;
-        TimeSpan dif = session.EndTime-session.StartTime;
-        session.LenghtInSeconds = (int)dif.TotalSeconds;
         await _sessionCollection.InsertOneAsync(session);
         
         return session;
@@ -65,46 +63,44 @@ public class MongoDBRepository : IRepository
 
     }
 
-    public Task<float?> GetSessionMedianLength()
+    public async Task<float?> GetSessionMedianLength()
     {
-
-        return null;
-
+        return MedianFromList(await GetListOfPropertyInSession(session => (float)session.LengthInSeconds));
     }
 
-    public Task<float?> GetSessionAverageLength()
+    public async Task<float?> GetSessionAverageLength()
     {
-
-        return null;
-
+        return AverageFromList(await GetListOfPropertyInSession(session => (float)session.LengthInSeconds));
     }
 
-    public Task<float?> GetMedianStartsPerSession()
+    public async Task<float?> GetMedianStartsPerSession()
     {
-
-        return null;
-
+        return MedianFromList(await GetListOfPropertyInSession(session => (float)session.Starts));
     }
 
-    public Task<float?> GetAverageStartsPerSession()
+    public async Task<float?> GetAverageStartsPerSession()
     {
-
-        return null;
-
+        return AverageFromList(await GetListOfPropertyInSession(session => (float)session.Starts));
     }
 
-    public Task<float?> GetMedianDeathsPerSession()
+    public async Task<float?> GetMedianDeathsPerSession()
     {
-
-        return null;
-
+        return MedianFromList(await GetListOfPropertyInSession(session => (float)session.Deaths));
     }
 
-    public Task<float?> GetAverageDeathsPerSession()
+    public async Task<float?> GetAverageDeathsPerSession()
     {
+        return AverageFromList(await GetListOfPropertyInSession(session => (float)session.Deaths));
+    }
 
-        return null;
+    public async Task<float?> GetMedianWinsPerSession()
+    {
+        return MedianFromList(await GetListOfPropertyInSession(session => (float)session.Wins));
+    }
 
+    public async Task<float?> GetAverageWinsPerSession()
+    {
+        return AverageFromList(await GetListOfPropertyInSession(session => (float)session.Wins));
     }
 
     private T MedianFromList<T>(List<T> list)
@@ -125,9 +121,34 @@ public class MongoDBRepository : IRepository
     {
         dynamic sum = 0;
         foreach (dynamic member in list)
-            sum = sum + member;
+            sum += member;
 
         return sum / list.Count;
     }
 
+    /*private async Task<List<float>> GetSessionLengths()
+    {
+        FilterDefinition<Session> filter = Builders<Session>.Filter.Empty;
+        List<Session> sessions = await _sessionCollection.Find(filter).ToListAsync();
+
+        List<float> sessionLengths = new List<float>();
+        foreach(Session session in sessions)
+        {
+            sessionLengths.Add(session.LengthInSeconds);
+        }
+        return sessionLengths;
+    }*/
+
+    private async Task<List<T>> GetListOfPropertyInSession<T>(Func<Session, T> propertyOfSession)
+    {
+        FilterDefinition<Session> filter = Builders<Session>.Filter.Empty;
+        List<Session> sessions = await _sessionCollection.Find(filter).ToListAsync();
+
+        List<T> sessionProperties = new List<T>();
+        foreach(Session session in sessions)
+        {
+            sessionProperties.Add(propertyOfSession(session));
+        }
+        return sessionProperties;
+    }
 }
