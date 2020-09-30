@@ -50,10 +50,17 @@ public class MongoDBRepository : IRepository
     }
 
 
-    public Task<Nationality[]> GetTopNationalities(int n)
+    public async Task<NationalityCount[]> GetTopNationalities(int n)
     {
+        List<NationalityCount> natCounts = await _playerCollection.Aggregate().Project(p => (int)p.nationality)
+              .Group(l => l, p => new NationalityCount { Id = p.Key, Count = p.Sum() })
+              .SortByDescending(l => l.Count)
+              .Limit(n)
+              .ToListAsync();
+        //Console.WriteLine("Debug: " + levelCounts.First());
+        return natCounts.ToArray();
 
-        return null;
+
 
     }
 

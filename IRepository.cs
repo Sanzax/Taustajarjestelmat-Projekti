@@ -14,7 +14,7 @@ public interface IRepository
 
     Task<Session> CreateSession(Session session);
 
-    Task<Nationality[]> GetTopNationalities(int n);
+    Task<NationalityCount[]> GetTopNationalities(int n);
 
     Task<float?> GetSessionMedianLength();
 

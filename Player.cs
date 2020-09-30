@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 public class Player
 {
 
-
+    public Nationality nationality { get; set; }
     public Guid id { get; set; }
 
     public DateTime CreationDate { get; set; }

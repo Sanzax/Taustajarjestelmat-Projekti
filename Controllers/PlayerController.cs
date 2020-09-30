@@ -22,6 +22,32 @@ namespace Taustajarjestelmat_Projekti.Controllers
             _repository = repository;
         }
 
+        [HttpPost]
+        public Task<Player> CreatePlayer([FromBody] NewPlayer player)
+        {
+
+
+
+            return null;
+
+        }
+        [HttpPost]
+        public Task<Player> ModifyPlayer(Guid id, [FromBody] ModifiedPlayer modifiedPlayer)
+        {
+
+            return null;
+
+        }
+
+        [HttpGet]
+        public Task<Nationality[]> GetTopNationalities(int n)
+        {
+
+            return null;
+
+        }
+
+
     }
 
 

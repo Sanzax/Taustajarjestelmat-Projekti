@@ -20,6 +20,56 @@ namespace Taustajarjestelmat_Projekti.Controllers
             _repository = repository;
         }
 
+
+        [HttpPost]
+        public Task<Session> CreateSession([FromBody] NewSession session)
+        {
+
+            return null;
+
+        }
+        [HttpGet]
+        public Task<float?> GetSessionMedianLength()
+        {
+
+            return null;
+
+        }
+        [HttpGet]
+        public Task<float?> GetSessionAverageLength()
+        {
+
+            return null;
+
+        }
+        [HttpGet]
+        public Task<float?> GetMedianStartsPerSession()
+        {
+
+            return null;
+
+        }
+        [HttpGet]
+        public Task<float?> GetAverageStartsPerSession()
+        {
+
+            return null;
+
+        }
+        [HttpGet]
+        public Task<float?> GetMedianDeathsPerSession()
+        {
+
+            return null;
+
+        }
+        [HttpGet]
+        public Task<float?> GetAverageDeathsPerSession()
+        {
+
+            return null;
+
+        }
     }
 
 
