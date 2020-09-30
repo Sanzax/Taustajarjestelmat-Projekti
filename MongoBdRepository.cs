@@ -99,7 +99,7 @@ public class MongoDBRepository : IRepository
 
     }
 
-    private float MedianFromList(List<float> list)
+    private T MedianFromList<T>(List<T> list)
     {
         list.Sort();
 
@@ -108,16 +108,16 @@ public class MongoDBRepository : IRepository
         if(list.Count % 2 != 0)
             return list[middle];
 
-        float a = list[middle];
-        float b = list[middle-1];
+        dynamic a = list[middle];
+        dynamic b = list[middle-1];
         return (a + b) / 2;
     }
 
-    private float AverageFromList(List<float> list)
+    private T AverageFromList<T>(List<T> list)
     {
-        float sum = 0;
-        foreach (float f in list)
-            sum += f;
+        dynamic sum = 0;
+        foreach (dynamic member in list)
+            sum = sum + member;
 
         return sum / list.Count;
     }
