@@ -2773,7 +2773,7 @@
       ]
     },
     "System.Net.Http/4.3.0": {
-      "sha512": "sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
+      "sha512": "Z1UfSF6dlpCdZdxh6LeoGlYH+q6ptG/iiIWgUUeKhE3DbQACmZkU7Sz2nOX0qdHjz72MOdYRbkSJ5Qwl6sZgvg==",
       "type": "package",
       "path": "system.net.http/4.3.0",
       "files": [
@@ -4719,23 +4719,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Petteri\\.nuget\\packages\\": {},
+    "C:\\Users\\Käyttäjä\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Tausta\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
+      "projectUniqueName": "C:\\Users\\Käyttäjä\\Documents\\GitHub\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
       "projectName": "Taustajarjestelmat-Projekti",
-      "projectPath": "C:\\Tausta\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
-      "packagesPath": "C:\\Users\\Petteri\\.nuget\\packages\\",
-      "outputPath": "C:\\Tausta\\Taustajarjestelmat-Projekti\\obj\\",
+      "projectPath": "C:\\Users\\Käyttäjä\\Documents\\GitHub\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
+      "packagesPath": "C:\\Users\\Käyttäjä\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Käyttäjä\\Documents\\GitHub\\Taustajarjestelmat-Projekti\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Petteri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Käyttäjä\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4782,7 +4782,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

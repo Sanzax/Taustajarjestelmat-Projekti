@@ -18,16 +18,14 @@ public interface IRepository
 
     Task<float?> GetSessionMedianLength();
 
-    Task<float?> GetSessionAvegageLenght();
+    Task<float?> GetSessionAverageLength();
 
     Task<float?> GetMedianStartsPerSession();
 
     Task<float?> GetAverageStartsPerSession();
 
-    Task<float?> GetMedianStartsPerSession();
+    Task<float?> GetMedianDeathsPerSession();
 
-    Task<float?> GetAverageStartsPerSession();
-
-
+    Task<float?> GetAverageDeathsPerSession();
 
 }

@@ -27,73 +27,99 @@ public class MongoDBRepository : IRepository
         _bsonSessionCollection = database.GetCollection<BsonDocument>("players");
     }
 
-    public async Task<Player> CreatePlayer(Player player)
+    public Task<Player> CreatePlayer(Player player)
     {
-
-        return null;
-    }
-
-    public async Task<Player> ModifyPlayer(Guid id, ModifiedPlayer modifiedPlayer)
-    {
-
-        return null;
-    }
-
-    public async Task<Session> CreateSession(Session session)
-    {
-
-        return null;
-    }
-
-    public async Task<Nationality[]> GetTopNationalities(int n)
-    {
-
-        return null;
-    }
-
-
-    public async Task<float?> GetSessionMedianLength()
-    {
-
-        return null;
-    }
-
-    public async Task<float?> GetSessionAvegageLenght()
-    {
-
-        return null;
-    }
-
-
-    public async Task<float?> GetMedianStartsPerSession()
-    {
-
-
-        return null;
-    }
-
-    public async Task<float?> GetAverageStartsPerSession()
-    {
-
 
         return null;
 
     }
 
-    public async Task<float?> GetMedianDeathsPerSession()
+    public Task<Player> ModifyPlayer(Guid id, ModifiedPlayer modifiedPlayer)
     {
-
 
         return null;
 
     }
 
-    public async Task<float?> GetAverageDeathsPerSession()
-    {
 
+    public Task<Session> CreateSession(Session session)
+    {
 
         return null;
 
     }
+
+
+    public Task<Nationality[]> GetTopNationalities(int n)
+    {
+
+        return null;
+
+    }
+
+    public Task<float?> GetSessionMedianLength()
+    {
+
+        return null;
+
+    }
+
+    public Task<float?> GetSessionAverageLength()
+    {
+
+        return null;
+
+    }
+
+    public Task<float?> GetMedianStartsPerSession()
+    {
+
+        return null;
+
+    }
+
+    public Task<float?> GetAverageStartsPerSession()
+    {
+
+        return null;
+
+    }
+
+    public Task<float?> GetMedianDeathsPerSession()
+    {
+
+        return null;
+
+    }
+
+    public Task<float?> GetAverageDeathsPerSession()
+    {
+
+        return null;
+
+    }
+
+        private float MedianFromList(List<float> list)
+        {
+            list.Sort();
+
+            int middle = list.Count / 2;
+
+            if(list.Count % 2 != 0)
+                return list[middle];
+
+            float a = list[middle];
+            float b = list[middle-1];
+            return (a + b) / 2;
+        }
+
+        private float AverageFromList(List<float> list)
+        {
+            float sum = 0;
+            foreach (float f in list)
+                sum += f;
+
+            return sum / list.Count;
+        }
 
 }
