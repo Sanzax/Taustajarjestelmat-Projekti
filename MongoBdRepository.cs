@@ -24,7 +24,7 @@ public class MongoDBRepository : IRepository
         _playerCollection = database.GetCollection<Player>("players");
         _bsonPlayerCollection = database.GetCollection<BsonDocument>("players");
         _sessionCollection = database.GetCollection<Session>("sessions");
-        _bsonSessionCollection = database.GetCollection<BsonDocument>("players");
+        _bsonSessionCollection = database.GetCollection<BsonDocument>("sessions");
     }
 
     public Task<Player> CreatePlayer(Player player)
@@ -105,11 +105,11 @@ public class MongoDBRepository : IRepository
 
         int middle = list.Count / 2;
 
-        if(list.Count % 2 != 0)
+        if (list.Count % 2 != 0)
             return list[middle];
 
         dynamic a = list[middle];
-        dynamic b = list[middle-1];
+        dynamic b = list[middle - 1];
         return (a + b) / 2;
     }
 
