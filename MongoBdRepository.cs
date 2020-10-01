@@ -38,9 +38,9 @@ public class MongoDBRepository : IRepository
 
     public async Task<Player> ModifyPlayer(Guid id, ModifiedPlayer modifiedPlayer)
     {
-        var filter = Builders<Player>.Filter.Eq(p => p.id,id);
-        var update = Builders<Player>.Update.Set(p =>p.age, modifiedPlayer.age);
-        await _playerCollection.UpdateOneAsync(filter,update);
+        var filter = Builders<Player>.Filter.Eq(p => p.id, id);
+        var update = Builders<Player>.Update.Set(p => p.age, modifiedPlayer.age);
+        await _playerCollection.UpdateOneAsync(filter, update);
         return null;
 
     }
@@ -50,7 +50,7 @@ public class MongoDBRepository : IRepository
     {
         session.EndTime = DateTime.Now;
         await _sessionCollection.InsertOneAsync(session);
-        
+
         return session;
 
     }
@@ -59,17 +59,39 @@ public class MongoDBRepository : IRepository
     public async Task<NationalityCount[]> GetTopNationalities(int n)
     {
         List<NationalityCount> natCounts = await _playerCollection.Aggregate().Project(p => (int)p.nationality)
-              .Group(l => l, p => new NationalityCount { Id = p.Key, Count = p.Sum() })
+              .Group(l => l, p => new NationalityCount { nationality = (Nationality)p.Key, Count = p.Sum() })
               .SortByDescending(l => l.Count)
               .Limit(n)
               .ToListAsync();
-        //Console.WriteLine("Debug: " + levelCounts.First());
+
         return natCounts.ToArray();
 
 
 
     }
+    public async Task<WeeklyCount[]> GetWeeklyActivity()
+    {
+        List<WeeklyCount> dayCounts = await _sessionCollection.Aggregate().Project(p => (int)p.StartTime.DayOfWeek)
+                    .Group(l => l, p => new WeeklyCount { day = (DayOfWeek)p.Key, count = p.Sum() })
+                    .SortByDescending(l => l.count)
+                    .Limit(7)
+                    .ToListAsync();
 
+        return dayCounts.ToArray();
+
+
+    }
+
+    public async Task<DailyCount[]> GetDailyActivity()
+    {
+        List<DailyCount> hourCounts = await _sessionCollection.Aggregate().Project(p => p.StartTime.Hour)
+              .Group(l => l, p => new DailyCount { hour = p.Key, count = p.Sum() })
+              .SortByDescending(l => l.count)
+              .Limit(24)
+              .ToListAsync();
+
+        return hourCounts.ToArray();
+    }
     public async Task<float?> GetSessionMedianLength()
     {
         return MedianFromList(await GetListOfPropertyInSession(session => (float)session.LengthInSeconds));
@@ -152,7 +174,7 @@ public class MongoDBRepository : IRepository
         List<Session> sessions = await _sessionCollection.Find(filter).ToListAsync();
 
         List<T> sessionProperties = new List<T>();
-        foreach(Session session in sessions)
+        foreach (Session session in sessions)
         {
             sessionProperties.Add(propertyOfSession(session));
         }

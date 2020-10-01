@@ -16,6 +16,10 @@ public interface IRepository
 
     Task<NationalityCount[]> GetTopNationalities(int n);
 
+    Task<WeeklyCount[]> GetWeeklyActivity();
+
+    Task<DateTime[]> GetDailyActivity();
+
     Task<float?> GetSessionMedianLength();
 
     Task<float?> GetSessionAverageLength();
