@@ -1,10 +1,9 @@
 using System;
 public class WeeklyCount
 {
+    public DayOfWeek Day { get; set; }
 
-
-    public DayOfWeek day { get; set; }
-
-    public int count { get; set; }
+    public string Name { get; set; }
+    public int Count { get; set; }
 
 }

@@ -3,8 +3,8 @@ public class DailyCount
 {
 
 
-    public int hour { get; set; }
+    public int Hour { get; set; }
 
-    public int count { get; set; }
+    public int Count { get; set; }
 
 }

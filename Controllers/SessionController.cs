@@ -31,12 +31,15 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 StartTime = DateTime.Now.AddSeconds(-newSession.LengthInSeconds),
                 EndTime = DateTime.Now,
                 Wins = newSession.Wins,
-                Deaths = newSession.Deaths
+                Deaths = newSession.Deaths,
+                Day = DateTime.Now.DayOfWeek,
+                Hour = DateTime.Now.Hour
+
             };
 
             return await _repository.CreateSession(session);
         }
-        
+
         [HttpGet]
         [Route("MedianLength")]
         public async Task<float?> GetSessionMedianLength()
@@ -94,23 +97,55 @@ namespace Taustajarjestelmat_Projekti.Controllers
         }
 
         [HttpGet]
-        [Route("GetAll")]
-         public async Task<Session[]> GetAllSessions()
+        [Route("WeeklyActivity")]
+        public async Task<WeeklyCount[]> GetWeeklyActivity()
         {
-            return await _repository.GetAllSessions();
-        }
-        [HttpGet]
-        [Route("GetCount")]
-         public async Task<int> GetPlayerCount()
-         {
-             return await _repository.GetSessionCount();
-         }
+            string[] days = await _repository.GetWeeklyActivity();
+            WeeklyCount[] dayCount = new WeeklyCount[7];
+            string separator = ",";
+            int count = 2;
 
-         [HttpGet]
-         [Route("Get/{id}")]
-         public async Task<Session> GetSession(string id){
-             return await _repository.GetSession(id);
-         }
+            for (int i = 0; i < days.Length; i++)
+            {
+
+                WeeklyCount day = new WeeklyCount();
+                String[] tempString = new string[2];
+                tempString = days[i].Split(separator, count, StringSplitOptions.RemoveEmptyEntries);
+
+                day.Day = (DayOfWeek)Int32.Parse(tempString[0]);
+                day.Name = day.Day.ToString();
+                day.Count = Int32.Parse(tempString[1]);
+                dayCount[i] = day;
+            }
+            return dayCount;
+        }
+
+        [HttpGet]
+        [Route("DailyActivity")]
+        public async Task<DailyCount[]> GetDailyActivity()
+        {
+            string[] hours = await _repository.GetDailyActivity();
+            DailyCount[] hourCount = new DailyCount[24];
+            string separator = ",";
+            int count = 2;
+
+            for (int i = 0; i < hours.Length; i++)
+            {
+
+                DailyCount hour = new DailyCount();
+                String[] tempString = new string[2];
+                tempString = hours[i].Split(separator, count, StringSplitOptions.RemoveEmptyEntries);
+
+                hour.Hour = Int32.Parse(tempString[0]);
+
+                hour.Count = Int32.Parse(tempString[1]);
+                hourCount[i] = hour;
+            }
+            return hourCount;
+
+
+
+        }
     }
 
 }
