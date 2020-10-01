@@ -10,7 +10,7 @@ public interface IRepository
 
     Task<Player> CreatePlayer(Player player);
 
-    Task<Player> ModifyPlayer(Guid id, ModifiedPlayer modifiedPlayer);
+    Task<Player> ModifyPlayer(string id, ModifiedPlayer modifiedPlayer);
 
     Task<Session> CreateSession(Session session);
 
@@ -36,4 +36,12 @@ public interface IRepository
 
     Task<float?> GetAverageWinsPerSession();
 
+    Task<GenderPercentage[]> GetGenderDistribution();
+
+    Task<Player[]> GetAllPlayers();
+    Task<Session[]> GetAllSessions();
+    Task<int> GetPlayerCount();
+    Task<int> GetSessionCount();
+    Task<Player> GetPlayer(string id);
+    Task<Session> GetSession(string id);
 }

@@ -92,6 +92,25 @@ namespace Taustajarjestelmat_Projekti.Controllers
         {
             return await _repository.GetAverageWinsPerSession();
         }
+
+        [HttpGet]
+        [Route("GetAll")]
+         public async Task<Session[]> GetAllSessions()
+        {
+            return await _repository.GetAllSessions();
+        }
+        [HttpGet]
+        [Route("GetCount")]
+         public async Task<int> GetPlayerCount()
+         {
+             return await _repository.GetSessionCount();
+         }
+
+         [HttpGet]
+         [Route("Get/{id}")]
+         public async Task<Session> GetSession(string id){
+             return await _repository.GetSession(id);
+         }
     }
 
 }

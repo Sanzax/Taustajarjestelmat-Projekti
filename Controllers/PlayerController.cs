@@ -46,13 +46,38 @@ namespace Taustajarjestelmat_Projekti.Controllers
             return await _repository.ModifyPlayer(id, modifiedPlayer);
 
         }
-
+        [HttpGet]
+        [Route("GetTopNationalities/{n}")]
         public Task<NationalityCount[]> GetTopNationalities(int n)
         {
 
             return _repository.GetTopNationalities(n);
 
         }
+        [HttpGet]
+        [Route("GetGenderDistribution")]
+        public async Task<GenderPercentage[]> GetGenderDistribution(){
+            return await _repository.GetGenderDistribution();
+        }
+
+        [HttpGet]
+        [Route("GetAll")]
+         public async Task<Player[]> GetAllPlayers()
+        {
+            return await _repository.GetAllPlayers();
+        }
+        [HttpGet]
+        [Route("GetCount")]
+         public async Task<int> GetPlayerCount()
+         {
+             return await _repository.GetPlayerCount();
+         }
+         [HttpGet]
+         [Route("Get/{id}")]
+         public async Task<Player> GetPlayer(string id)
+         {
+             return await _repository.GetPlayer(id);
+         }
 
     }
 }
