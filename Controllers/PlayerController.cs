@@ -28,8 +28,8 @@ namespace Taustajarjestelmat_Projekti.Controllers
         {
             Player player = new Player()
             {
-                nationality = newPlayer.Nationality,
-                id = Guid.NewGuid(),
+                Nationality = newPlayer.Nationality,
+                Id = Guid.NewGuid().ToString(),
                 CreationDate = DateTime.Now,
                 BirthDate = new DateTime(newPlayer.Year, newPlayer.Month, newPlayer.Day),
                 Gender = newPlayer.Gender 
@@ -40,7 +40,7 @@ namespace Taustajarjestelmat_Projekti.Controllers
 
         [HttpPost]
         [Route("Modify/{id}")]
-        public async Task<Player> ModifyPlayer(Guid id, [FromBody] ModifiedPlayer modifiedPlayer)
+        public async Task<Player> ModifyPlayer(string id, [FromBody] ModifiedPlayer modifiedPlayer)
         {
 
             return await _repository.ModifyPlayer(id, modifiedPlayer);

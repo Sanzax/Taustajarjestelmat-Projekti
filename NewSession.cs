@@ -2,7 +2,7 @@ using System;
 
 public class NewSession
 {
-    public Guid PlayerId { get; set; }
+    public string PlayerId { get; set; }
     public int LengthInSeconds { get; set; }
     public int Wins { get; set; }
 

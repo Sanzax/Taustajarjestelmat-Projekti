@@ -2,8 +2,8 @@ using System;
 
 public class Session
 {
-    public Guid id { get; set; }
-    public Guid playerId{ get; set; }
+    public string id { get; set; }
+    public string playerId{ get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     //lasketaan startin ja endin perusteella kun sessio tallennetaan tietokantaan

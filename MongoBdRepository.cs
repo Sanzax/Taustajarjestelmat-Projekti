@@ -31,14 +31,14 @@ public class MongoDBRepository : IRepository
     public async Task<Player> CreatePlayer(Player player)
     {
         player.CreationDate = DateTime.Now;
-        player.id = Guid.NewGuid();
+        player.Id = Guid.NewGuid().ToString();
         await _playerCollection.InsertOneAsync(player);
         return player;
     }
 
-    public async Task<Player> ModifyPlayer(Guid id, ModifiedPlayer modifiedPlayer)
+    public async Task<Player> ModifyPlayer(string id, ModifiedPlayer modifiedPlayer)
     {
-        var filter = Builders<Player>.Filter.Eq(p => p.id, id);
+        var filter = Builders<Player>.Filter.Eq(p => p.Id, id);
         var update = Builders<Player>.Update.Set(p => p.Age, modifiedPlayer.age);
         await _playerCollection.UpdateOneAsync(filter, update);
         return null;
@@ -58,7 +58,7 @@ public class MongoDBRepository : IRepository
 
     public async Task<NationalityCount[]> GetTopNationalities(int n)
     {
-        List<NationalityCount> natCounts = await _playerCollection.Aggregate().Project(p => (int)p.nationality)
+        List<NationalityCount> natCounts = await _playerCollection.Aggregate().Project(p => (int)p.Nationality)
               .Group(l => l, p => new NationalityCount { nationality = (Nationality)p.Key, Count = p.Sum() })
               .SortByDescending(l => l.Count)
               .Limit(n)

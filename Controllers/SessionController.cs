@@ -26,7 +26,7 @@ namespace Taustajarjestelmat_Projekti.Controllers
         {
             Session session = new Session()
             {
-                id = Guid.NewGuid(),
+                id = Guid.NewGuid().ToString(),
                 playerId = newSession.PlayerId,
                 StartTime = DateTime.Now.AddSeconds(-newSession.LengthInSeconds),
                 EndTime = DateTime.Now,
