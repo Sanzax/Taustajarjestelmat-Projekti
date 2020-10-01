@@ -20,58 +20,78 @@ namespace Taustajarjestelmat_Projekti.Controllers
             _repository = repository;
         }
 
-
         [HttpPost]
-        public Task<Session> CreateSession([FromBody] NewSession session)
+        [Route("Create")]
+        public async Task<Session> CreateSession([FromBody] NewSession newSession)
         {
+            Session session = new Session()
+            {
+                id = Guid.NewGuid(),
+                playerId = newSession.PlayerId,
+                StartTime = DateTime.Now.AddSeconds(-newSession.LengthInSeconds),
+                EndTime = DateTime.Now,
+                Wins = newSession.Wins,
+                Deaths = newSession.Deaths
+            };
 
-            return null;
-
+            return await _repository.CreateSession(session);
         }
+        
         [HttpGet]
-        public Task<float?> GetSessionMedianLength()
+        [Route("MedianLength")]
+        public async Task<float?> GetSessionMedianLength()
         {
-
-            return null;
-
+            return await _repository.GetSessionMedianLength();
         }
+
         [HttpGet]
-        public Task<float?> GetSessionAverageLength()
+        [Route("AverageLength")]
+        public async Task<float?> GetSessionAverageLength()
         {
-
-            return null;
-
+            return await _repository.GetSessionAverageLength();
         }
+
         [HttpGet]
-        public Task<float?> GetMedianStartsPerSession()
+        [Route("MedianStarts")]
+        public async Task<float?> GetMedianStartsPerSession()
         {
-
-            return null;
-
+            return await _repository.GetMedianStartsPerSession();
         }
+
         [HttpGet]
-        public Task<float?> GetAverageStartsPerSession()
+        [Route("AverageStarts")]
+        public async Task<float?> GetAverageStartsPerSession()
         {
-
-            return null;
-
+            return await _repository.GetAverageStartsPerSession();
         }
+
         [HttpGet]
-        public Task<float?> GetMedianDeathsPerSession()
+        [Route("MedianDeaths")]
+        public async Task<float?> GetMedianDeathsPerSession()
         {
-
-            return null;
-
+            return await _repository.GetMedianDeathsPerSession();
         }
+
         [HttpGet]
-        public Task<float?> GetAverageDeathsPerSession()
+        [Route("AverageDeaths")]
+        public async Task<float?> GetAverageDeathsPerSession()
         {
+            return await _repository.GetAverageDeathsPerSession();
+        }
 
-            return null;
+        [HttpGet]
+        [Route("MedianWins")]
+        public async Task<float?> GetMedianWinsPerSession()
+        {
+            return await _repository.GetMedianWinsPerSession();
+        }
 
+        [HttpGet]
+        [Route("AverageWins")]
+        public async Task<float?> GetAverageWinsPerSession()
+        {
+            return await _repository.GetAverageWinsPerSession();
         }
     }
-
-
 
 }

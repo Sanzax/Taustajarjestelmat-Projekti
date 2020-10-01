@@ -2,13 +2,10 @@ using System;
 
 public class NewSession
 {
+    public Guid PlayerId { get; set; }
+    public int LengthInSeconds { get; set; }
+    public int Wins { get; set; }
 
-
-
-    Guid playerId { get; set; }
-    DateTime StartTime { get; set; }
-    DateTime endTime { get; set; }
-
-
+    public int Deaths { get; set; }
 
 }

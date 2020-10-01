@@ -16,7 +16,13 @@ public class Session
     }
 
     //kuinka monta kertaa pelaaja aloitti uuden pelin session aikana
-    public int Starts { get; set; }
+    public int Starts 
+    { 
+        get 
+        {
+            return Wins + Deaths;
+        }
+     }
     //kuinka monta kertaa pelaaja tappoi bossin. 
     public int Wins { get; set; }
     public int Deaths { get; set; }

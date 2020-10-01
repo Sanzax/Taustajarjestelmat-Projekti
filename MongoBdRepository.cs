@@ -39,7 +39,7 @@ public class MongoDBRepository : IRepository
     public async Task<Player> ModifyPlayer(Guid id, ModifiedPlayer modifiedPlayer)
     {
         var filter = Builders<Player>.Filter.Eq(p => p.id,id);
-        var update = Builders<Player>.Update.Set(p =>p.age, modifiedPlayer.age);
+        var update = Builders<Player>.Update.Set(p =>p.Age, modifiedPlayer.age);
         await _playerCollection.UpdateOneAsync(filter,update);
         return null;
 
