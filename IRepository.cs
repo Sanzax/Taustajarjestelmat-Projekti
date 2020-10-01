@@ -49,6 +49,7 @@ public interface IRepository
     Task<int> GetSessionCount();
     Task<Player> GetPlayer(string id);
     Task<Session> GetSession(string id);
+     Task<AgePercentage[]> GetAgeDistribution();
 
 
 }

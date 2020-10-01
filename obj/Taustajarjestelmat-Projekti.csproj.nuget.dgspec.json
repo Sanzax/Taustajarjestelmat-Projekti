@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\Project\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj": {}
+    "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\ProjectUpdated\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\Project\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj": {
+    "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\ProjectUpdated\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\Project\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
+        "projectUniqueName": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\ProjectUpdated\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
         "projectName": "Taustajarjestelmat-Projekti",
-        "projectPath": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\Project\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
+        "projectPath": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\ProjectUpdated\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
         "packagesPath": "C:\\Users\\Aaron\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\Project\\Taustajarjestelmat-Projekti\\obj\\",
+        "outputPath": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\ProjectUpdated\\Taustajarjestelmat-Projekti\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -223,9 +223,40 @@ public class MongoDBRepository : IRepository
         var f = (int)await _playerCollection.Find(f => f.Gender == 'F').CountDocumentsAsync();
         var o = (int)await _playerCollection.Find(f => f.Gender == 'O').CountDocumentsAsync();
         int total = m + f + o;
+        if(total==0)return null;
         list.Add(new GenderPercentage('M', (float)m / total));
         list.Add(new GenderPercentage('F', (float)f / total));
         list.Add(new GenderPercentage('O', (float)o / total));
+        return list.ToArray();
+    }
+
+    public async Task<AgePercentage[]> GetAgeDistribution(){
+        var collection =  _playerCollection.AsQueryable();
+        List<AgePercentage> list = new List<AgePercentage>();
+        int total = 0;
+        DateTime current = DateTime.Now;
+        DateTime startDate = current.AddYears(-100);
+        DateTime endDate = startDate.AddYears(10);
+
+        Console.WriteLine("starting at " + startDate);
+        Console.WriteLine("ending at " + endDate);
+        
+        int currentLimit =100;
+        while(startDate < current){
+            var ageSum = await (from p in collection
+            where (p.BirthDate > startDate && p.BirthDate < endDate)
+            select p).CountAsync();
+            if(ageSum!=0)
+            list.Add(new AgePercentage(currentLimit-10,currentLimit,ageSum));
+            startDate = startDate.AddYears(10);
+            endDate = endDate.AddYears(10);
+            currentLimit-=10;
+            total+=ageSum;
+        }
+        for(int i=0; i< list.Count;i++){
+            list[i].Percentage = (float)list[i].Count/total;
+        }
+        
         return list.ToArray();
     }
     public async Task<Player[]> GetAllPlayers()

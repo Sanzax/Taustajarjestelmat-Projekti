@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8OWNzJKXSo+zpoqxWt0va507k9Mw1L8wqf30aUtjNyFvJRuGCPyRFRMKRNfd1XBSbzl6x7kul6bB7zlBlv1f+w==",
+  "dgSpecHash": "n/jH1kkthWkd6Ea/+KxNnfp1bj5ngh+Stz2kQk8N88cwnBG7tFODTnjOj9H5y1Y+UDdWsFcZoQ/X/MouzEFvzw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\Project\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
+  "projectFilePath": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\ProjectUpdated\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Aaron\\.nuget\\packages\\dnsclient\\1.3.1\\dnsclient.1.3.1.nupkg.sha512",
     "C:\\Users\\Aaron\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.2\\microsoft.netcore.platforms.2.1.2.nupkg.sha512",
