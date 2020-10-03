@@ -190,15 +190,15 @@ public class MongoDBRepository : IRepository
         }
         return sessionLengths;
     }*/
-    private async Task<List<int>> GetAges()
+    private async Task<List<float>> GetAges()
     {
 
         Player[] players = await GetAllPlayers();
         int count = await GetPlayerCount();
-        int[] ages = new int[count];
+        float[] ages = new float[count];
         for (int i = 0; i < count; i++)
         {
-            ages[i] = players[i].Age;
+            ages[i] = (float)players[i].Age;
         }
         return ages.ToList();
     }
