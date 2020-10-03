@@ -114,6 +114,12 @@ namespace Taustajarjestelmat_Projekti.Controllers
 
             return await _repository.GetMedianAge();
         }
+        [HttpGet]
+        [Route("GetAgeDistribution")]
+        public async Task<AgePercentage[]> GetAgePercentages()
+        {      
+             return await _repository.GetAgeDistribution();
+        }
 
     }
 }
