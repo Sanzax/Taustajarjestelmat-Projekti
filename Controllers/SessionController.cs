@@ -33,8 +33,8 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 EndTime = DateTime.Now,
                 Wins = newSession.Wins,
                 Deaths = newSession.Deaths,
-                //    Day = DateTime.Now.DayOfWeek,
-                //  Hour = DateTime.Now.Hour
+                Day = DateTime.Now.DayOfWeek,
+                Hour = DateTime.Now.Hour
 
             };
 

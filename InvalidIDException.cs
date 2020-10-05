@@ -5,6 +5,7 @@ public class InvalidIDException : System.Exception
 {
     public InvalidIDException() : base()
     {
+
         Console.WriteLine("NotFoundException thrown");
     }
     /* public NotFoundException(string name) : base(String.Format(name))
