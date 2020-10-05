@@ -31,6 +31,7 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 playerId = newSession.PlayerId,
                 StartTime = DateTime.Now.AddSeconds(-newSession.LengthInSeconds),
                 EndTime = DateTime.Now,
+                Starts = newSession.Wins + newSession.Deaths,
                 Wins = newSession.Wins,
                 Deaths = newSession.Deaths,
                 //   Day = DateTime.Now.DayOfWeek,
@@ -38,6 +39,8 @@ namespace Taustajarjestelmat_Projekti.Controllers
 
             };
             await _repository.UpdateSessionCount(newSession.PlayerId);
+            session.LengthInSeconds = (int)session.EndTime.Subtract(session.StartTime).TotalSeconds;
+
             return await _repository.CreateSession(session);
         }
 

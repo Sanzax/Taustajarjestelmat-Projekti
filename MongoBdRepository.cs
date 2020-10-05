@@ -31,8 +31,6 @@ public class MongoDBRepository : IRepository
 
     public async Task<Player> CreatePlayer(Player player)
     {
-        player.CreationDate = DateTime.Now;
-        player.Id = Guid.NewGuid().ToString();
         await _playerCollection.InsertOneAsync(player);
         return player;
     }
@@ -49,11 +47,14 @@ public class MongoDBRepository : IRepository
 
     public async Task<Session> CreateSession(Session session)
     {
-        session.EndTime = DateTime.Now;
+        if(GetPlayer(session.playerId) == null)
+        {
+            //Pelaajaa ei ole olemassa
+            //Heitetäänkö error?
+        }
+
         await _sessionCollection.InsertOneAsync(session);
-
         return session;
-
     }
 
     public async Task<List<Nationality>> GetAllNations()
