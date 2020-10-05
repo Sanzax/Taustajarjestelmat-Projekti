@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 //using Newtonsoft.Json;
 using System.Linq;
 using System.IO;
+using System.Collections.Generic;
 
 public interface IRepository
 {
@@ -14,12 +15,17 @@ public interface IRepository
 
     Task<Session> CreateSession(Session session);
 
-    Task<NationalityCount[]> GetTopNationalities(int n);
+    Task<string[]> GetTopNationalities(int n);
 
-    Task<WeeklyCount[]> GetWeeklyActivity();
+    Task<string[]> GetMostActivePlayers(int n);
 
-    Task<DailyCount[]> GetDailyActivity();
+    //Task<string[]> GetMostActiveNations(int n);
 
+    // Task<string[]> GetWeeklyActivity();
+
+    //   Task<string[]> GetDailyActivity();
+
+    Task<DateTime[]> GetDateTimes();
     Task<float?> GetSessionMedianLength();
 
     Task<float?> GetSessionAverageLength();
@@ -38,10 +44,18 @@ public interface IRepository
 
     Task<GenderPercentage[]> GetGenderDistribution();
 
+    Task<float> GetMedianAge();
+
+    Task<float> GetAverageAge();
+
     Task<Player[]> GetAllPlayers();
+    Task<List<Nationality>> GetAllNations();
     Task<Session[]> GetAllSessions();
     Task<int> GetPlayerCount();
     Task<int> GetSessionCount();
     Task<Player> GetPlayer(string id);
     Task<Session> GetSession(string id);
+    Task<AgePercentage[]> GetAgeDistribution();
+
+
 }

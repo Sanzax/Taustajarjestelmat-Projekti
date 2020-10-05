@@ -3,8 +3,10 @@ using System;
 public class Session
 {
     public string id { get; set; }
-    public string playerId{ get; set; }
+    public string playerId { get; set; }
     public DateTime StartTime { get; set; }
+    public DayOfWeek Day { get; set; }
+    public int Hour { get; set; }
     public DateTime EndTime { get; set; }
     //lasketaan startin ja endin perusteella kun sessio tallennetaan tietokantaan
     public int LengthInSeconds { get; set; }

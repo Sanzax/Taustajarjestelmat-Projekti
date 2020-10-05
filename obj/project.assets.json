@@ -1358,6 +1358,7 @@
       "path": "microsoft.netcore.targets/1.1.0",
       "files": [
         ".nupkg.metadata",
+        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/netstandard1.0/_._",
@@ -4719,23 +4720,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Aaron\\.nuget\\packages\\": {},
+    "C:\\Users\\Petteri\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\Project\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
+      "projectUniqueName": "C:\\Tausta\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
       "projectName": "Taustajarjestelmat-Projekti",
-      "projectPath": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\Project\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
-      "packagesPath": "C:\\Users\\Aaron\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Aaron\\TaustaJärjestelmät koodeja\\Project\\Taustajarjestelmat-Projekti\\obj\\",
+      "projectPath": "C:\\Tausta\\Taustajarjestelmat-Projekti\\Taustajarjestelmat-Projekti.csproj",
+      "packagesPath": "C:\\Users\\Petteri\\.nuget\\packages\\",
+      "outputPath": "C:\\Tausta\\Taustajarjestelmat-Projekti\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Aaron\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Petteri\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

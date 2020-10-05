@@ -36,7 +36,7 @@ namespace Taustajarjestelmat_Projekti
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMyMiddleware();
             //  app.UseHttpsRedirection();
 
             app.UseRouting();
