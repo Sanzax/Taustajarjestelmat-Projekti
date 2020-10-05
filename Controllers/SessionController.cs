@@ -33,8 +33,8 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 EndTime = DateTime.Now,
                 Wins = newSession.Wins,
                 Deaths = newSession.Deaths,
-                Day = DateTime.Now.DayOfWeek,
-                Hour = DateTime.Now.Hour
+                //    Day = DateTime.Now.DayOfWeek,
+                //  Hour = DateTime.Now.Hour
 
             };
 
@@ -134,48 +134,41 @@ namespace Taustajarjestelmat_Projekti.Controllers
 
             week = week.OrderByDescending(day => day.Count).ToArray();
             return week;
-            /* string[] days = await _repository.GetWeeklyActivity();
-             WeeklyCount[] dayCount = new WeeklyCount[7];
-             string separator = ",";
-             int count = 2;
 
-             for (int i = 0; i < days.Length; i++)
-             {
-
-                 WeeklyCount day = new WeeklyCount();
-                 String[] tempString = new string[2];
-                 tempString = days[i].Split(separator, count, StringSplitOptions.RemoveEmptyEntries);
-
-                 day.Day = (DayOfWeek)Int32.Parse(tempString[0]);
-                 day.Name = day.Day.ToString();
-                 day.Count = Int32.Parse(tempString[1]);
-                 dayCount[i] = day;
-             }
-             return dayCount;*/
         }
 
         [HttpGet]
         [Route("DailyActivity")]
         public async Task<DailyCount[]> GetDailyActivity()
         {
-            string[] hours = await _repository.GetDailyActivity();
-            DailyCount[] hourCount = new DailyCount[24];
-            string separator = ",";
-            int count = 2;
 
-            for (int i = 0; i < hours.Length; i++)
+            DateTime[] sessionsTimes = await Datetimes();
+
+            DailyCount[] day = new DailyCount[24];
+
+            for (int i = 0; i < 24; i++)
+            {
+                DailyCount hour = new DailyCount();
+                hour.Hour = i;
+                hour.Count = 0;
+                day[i] = hour;
+
+            }
+
+            foreach (DateTime d in sessionsTimes)
             {
 
-                DailyCount hour = new DailyCount();
-                String[] tempString = new string[2];
-                tempString = hours[i].Split(separator, count, StringSplitOptions.RemoveEmptyEntries);
+                int hour = d.Hour;
+                day[hour].Count += 1;
 
-                hour.Hour = Int32.Parse(tempString[0]);
 
-                hour.Count = Int32.Parse(tempString[1]);
-                hourCount[i] = hour;
             }
-            return hourCount;
+
+            day = day.OrderByDescending(day => day.Count).ToArray();
+            return day;
+
+
+
 
 
 

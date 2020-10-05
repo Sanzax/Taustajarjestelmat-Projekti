@@ -21,9 +21,9 @@ public interface IRepository
 
     //Task<string[]> GetMostActiveNations(int n);
 
-    Task<string[]> GetWeeklyActivity();
+    // Task<string[]> GetWeeklyActivity();
 
-    Task<string[]> GetDailyActivity();
+    //   Task<string[]> GetDailyActivity();
 
     Task<DateTime[]> GetDateTimes();
     Task<float?> GetSessionMedianLength();

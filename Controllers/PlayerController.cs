@@ -1,9 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,14 +87,6 @@ namespace Taustajarjestelmat_Projekti.Controllers
         [Route("GetMostActive/{n}")]
         public async Task<PlayerActivityCount[]> GetMostActivePlayers(int n)
         {
-            /* return await _repository.GetMostActivePlayers(n);
-
-                            foreach (PlayerActivityCount p in players)
-                            {
-                                p.Player = await GetPlayer(p.PlayerId);
-
-                            }
-                            return players;*/
             string[] players = await _repository.GetMostActivePlayers(n);
 
             PlayerActivityCount[] activePlayers = new PlayerActivityCount[n];
@@ -118,15 +108,16 @@ namespace Taustajarjestelmat_Projekti.Controllers
 
             return activePlayers;
         }
+
         [HttpGet]
         [Route("GetMostActiveNations/{n}")]
-        public async Task<IEnumerable<NationalActivity>> GetMostActiveNations(int n)
+        public async Task<NationalActivity[]> GetMostActiveNations(int n)
         {
             int c = await GetPlayerCount();
-            var na = await GetallNationalities();
-            int nn = na.Count();
+            // var na = await GetallNationalities();
+            // int nn = na.Count();
             PlayerActivityCount[] players = await GetMostActivePlayers(c);
-            List<NationalActivity> natA = new List<NationalActivity>();
+            //  List<NationalActivity> natA = new List<NationalActivity>();
             List<NationalActivity> natActivity = new List<NationalActivity>();
             List<int> checkList = new List<int>();
             for (int i = 0; i < players.Length; i++)
@@ -149,7 +140,7 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 }
 
             }
-            var result = natActivity.OrderByDescending(n => n.Count).Take(n);
+            var result = natActivity.OrderByDescending(n => n.Count).Take(n).ToArray();
 
             return result;
         }
