@@ -30,9 +30,11 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 playerId = newSession.PlayerId,
                 StartTime = DateTime.Now.AddSeconds(-newSession.LengthInSeconds),
                 EndTime = DateTime.Now,
+                Starts = newSession.Wins + newSession.Deaths,
                 Wins = newSession.Wins,
                 Deaths = newSession.Deaths
             };
+            session.LengthInSeconds = (int)session.EndTime.Subtract(session.StartTime).TotalSeconds;
 
             return await _repository.CreateSession(session);
         }

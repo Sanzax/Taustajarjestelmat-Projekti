@@ -26,12 +26,19 @@ namespace Taustajarjestelmat_Projekti.Controllers
         [Route("Create")]
         public async Task<Player> CreatePlayer([FromBody] NewPlayer newPlayer)
         {
+            DateTime birthDate = new DateTime(newPlayer.Year, newPlayer.Month, newPlayer.Day);
+            if((DateTime.Now - birthDate).TotalSeconds <  0)
+            {
+                //Syntymäpäivä oli tulevaisuudesta
+                //Heitetäänkö jonkilainen error?
+            }
+
             Player player = new Player()
             {
                 Nationality = newPlayer.Nationality,
                 Id = Guid.NewGuid().ToString(),
                 CreationDate = DateTime.Now,
-                BirthDate = new DateTime(newPlayer.Year, newPlayer.Month, newPlayer.Day),
+                BirthDate = birthDate,
                 Gender = newPlayer.Gender 
             };
 
