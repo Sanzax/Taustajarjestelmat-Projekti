@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Taustajarjestelmat_Projekti.Controllers
 {
@@ -46,8 +47,18 @@ namespace Taustajarjestelmat_Projekti.Controllers
             return await _repository.ModifyPlayer(id, modifiedPlayer);
 
         }
-
-
+        [HttpGet]
+        [Route("GetAllNationalities")]
+        public async Task<List<string>> GetallNationalities()
+        {
+            List<string> stringList = new List<string>();
+            var list = await _repository.GetAllNations();
+            foreach (var a in list)
+            {
+                stringList.Add(a.ToString());
+            }
+            return stringList;
+        }
         [HttpGet]
         [Route("GetTopNationalities/{n}")]
         public async Task<NationalityCount[]> GetTopNationalities(int n)
@@ -60,16 +71,87 @@ namespace Taustajarjestelmat_Projekti.Controllers
             for (int i = 0; i < n; i++)
             {
                 NationalityCount nation = new NationalityCount();
-                String[] tempString = new string[2];
-                tempString = nationalities[i].Split(separator, count, StringSplitOptions.RemoveEmptyEntries);
+                String[] tempStrings = new string[2];
+                tempStrings = nationalities[i].Split(separator, count, StringSplitOptions.RemoveEmptyEntries);
 
-                nation.nationality = (Nationality)Int32.Parse(tempString[0]);
+                nation.nationality = (Nationality)Int32.Parse(tempStrings[0]);
                 nation.Name = nation.nationality.ToString();
-                nation.Count = Int32.Parse(tempString[1]);
+                if (tempStrings.Length == 1)
+                    nation.Count = 0;
+                nation.Count = Int32.Parse(tempStrings[1]);
                 natCount[i] = nation;
             }
             return natCount;
 
+        }
+
+        [HttpGet]
+        [Route("GetMostActive/{n}")]
+        public async Task<PlayerActivityCount[]> GetMostActivePlayers(int n)
+        {
+            /* return await _repository.GetMostActivePlayers(n);
+
+                            foreach (PlayerActivityCount p in players)
+                            {
+                                p.Player = await GetPlayer(p.PlayerId);
+
+                            }
+                            return players;*/
+            string[] players = await _repository.GetMostActivePlayers(n);
+
+            PlayerActivityCount[] activePlayers = new PlayerActivityCount[n];
+            string separator = ",";
+            int count = 2;
+            for (int i = 0; i < players.Length; i++)
+            {
+                PlayerActivityCount player = new PlayerActivityCount();
+                String[] tempStrings = new string[2];
+                tempStrings = players[i].Split(separator, count);
+
+                player.Player = await GetPlayer(tempStrings[0]);
+                if (tempStrings.Length == 1)
+                    player.Sessions = 0;
+                player.Sessions = Int32.Parse(tempStrings[1]);
+
+                activePlayers[i] = player;
+            }
+
+            return activePlayers;
+        }
+        [HttpGet]
+        [Route("GetMostActiveNations/{n}")]
+        public async Task<IEnumerable<NationalActivity>> GetMostActiveNations(int n)
+        {
+            int c = await GetPlayerCount();
+            var na = await GetallNationalities();
+            int nn = na.Count();
+            PlayerActivityCount[] players = await GetMostActivePlayers(c);
+            List<NationalActivity> natA = new List<NationalActivity>();
+            List<NationalActivity> natActivity = new List<NationalActivity>();
+            List<int> checkList = new List<int>();
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (players[i] == null)
+                    continue;
+                if (!checkList.Contains((int)players[i].Player.Nationality))
+                {
+                    NationalActivity natAt = new NationalActivity();
+                    natAt.Nation = players[i].Player.Nationality;
+                    natAt.Count = players[i].Sessions;
+                    natAt.Name = players[i].Player.Nationality.ToString();
+                    checkList.Add((int)natAt.Nation);
+                    natActivity.Add(natAt);
+                }
+                else
+                {
+                    int index = checkList.FindIndex(n => n == (int)players[i].Player.Nationality);
+                    natActivity[index].Count += players[i].Sessions;
+                }
+
+            }
+            var result = natActivity.OrderByDescending(n => n.Count).Take(n);
+
+            return result;
         }
 
         [HttpGet]
@@ -117,8 +199,8 @@ namespace Taustajarjestelmat_Projekti.Controllers
         [HttpGet]
         [Route("GetAgeDistribution")]
         public async Task<AgePercentage[]> GetAgePercentages()
-        {      
-             return await _repository.GetAgeDistribution();
+        {
+            return await _repository.GetAgeDistribution();
         }
 
     }

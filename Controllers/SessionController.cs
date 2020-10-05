@@ -1,9 +1,10 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-
+using System.Collections.Generic;
 
 namespace Taustajarjestelmat_Projekti.Controllers
 {
@@ -97,27 +98,60 @@ namespace Taustajarjestelmat_Projekti.Controllers
         }
 
         [HttpGet]
+        [Route("DateTimes")]
+        public async Task<DateTime[]> Datetimes()
+        {
+
+            return await _repository.GetDateTimes();
+        }
+
+        [HttpGet]
         [Route("WeeklyActivity")]
         public async Task<WeeklyCount[]> GetWeeklyActivity()
         {
-            string[] days = await _repository.GetWeeklyActivity();
-            WeeklyCount[] dayCount = new WeeklyCount[7];
-            string separator = ",";
-            int count = 2;
+            DateTime[] sessionsTimes = await Datetimes();
 
-            for (int i = 0; i < days.Length; i++)
+            WeeklyCount[] week = new WeeklyCount[7];
+
+            for (int i = 0; i < 7; i++)
+            {
+                WeeklyCount day = new WeeklyCount();
+                day.Day = (DayOfWeek)i;
+                day.Name = day.Day.ToString();
+                day.Count = 0;
+                week[i] = day;
+
+            }
+
+            foreach (DateTime d in sessionsTimes)
             {
 
-                WeeklyCount day = new WeeklyCount();
-                String[] tempString = new string[2];
-                tempString = days[i].Split(separator, count, StringSplitOptions.RemoveEmptyEntries);
+                int day = (int)d.DayOfWeek;
+                week[day].Count = week[day].Count + 1;
 
-                day.Day = (DayOfWeek)Int32.Parse(tempString[0]);
-                day.Name = day.Day.ToString();
-                day.Count = Int32.Parse(tempString[1]);
-                dayCount[i] = day;
+
             }
-            return dayCount;
+
+            week = week.OrderByDescending(day => day.Count).ToArray();
+            return week;
+            /* string[] days = await _repository.GetWeeklyActivity();
+             WeeklyCount[] dayCount = new WeeklyCount[7];
+             string separator = ",";
+             int count = 2;
+
+             for (int i = 0; i < days.Length; i++)
+             {
+
+                 WeeklyCount day = new WeeklyCount();
+                 String[] tempString = new string[2];
+                 tempString = days[i].Split(separator, count, StringSplitOptions.RemoveEmptyEntries);
+
+                 day.Day = (DayOfWeek)Int32.Parse(tempString[0]);
+                 day.Name = day.Day.ToString();
+                 day.Count = Int32.Parse(tempString[1]);
+                 dayCount[i] = day;
+             }
+             return dayCount;*/
         }
 
         [HttpGet]

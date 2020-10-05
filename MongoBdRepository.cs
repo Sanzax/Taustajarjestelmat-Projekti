@@ -55,7 +55,12 @@ public class MongoDBRepository : IRepository
 
     }
 
-
+    public async Task<List<Nationality>> GetAllNations()
+    {
+        var nations = await _playerCollection.DistinctAsync(p => p.Nationality, FilterDefinition<Player>.Empty).Result.ToListAsync();
+        return nations;
+        //  return distinctNations.ToArray();
+    }
     public async Task<string[]> GetTopNationalities(int n)
     {
         /*   List<NationalityCount> natCounts = await _playerCollection.Aggregate().Project(p => (int)p.Nationality)
@@ -77,10 +82,70 @@ public class MongoDBRepository : IRepository
 
 
     }
+    public async Task<string[]> GetMostActivePlayers(int n)
+    {
+        /*  var activityCounts = await _sessionCollection.Aggregate()
+                           .Project(p =>new{ p.playerId})
+                           .Group(l => l, p => new PlayerActivityCount { PlayerId = p.Key, Sessions = p.Count() })
+                           .SortByDescending(l => l.Sessions)
+                           .Limit(n)
+                           .ToListAsync();
+
+          //var result = activityCounts.Select(t => new PlayerActivityCount{PlayerId=t.PlayerId.ToString() ,Sessions=t.Sessions});
+          return activityCounts.ToArray();*/
 
 
+
+        var dbResult = await _sessionCollection.Aggregate()
+            .Unwind(s => s.playerId)
+            .Group(e => e["playerId"], n => new { Id = n.Key, Count = n.Count() })
+            .SortByDescending(e => e.Count)
+            .Limit(n)
+            .ToListAsync();
+        var result = dbResult.Select(t => t.Id.ToString() + ", " + t.Count.ToString());
+
+        return result.ToArray();
+    }
+
+    public async Task<DateTime[]> GetDateTimes()
+    {
+        var Times = await _sessionCollection.Aggregate()
+            .Unwind(s => s.StartTime)
+            .Group(e => e["StartTime"], n => new { Time = n.Key })
+            .ToListAsync();
+
+        var result = Times.Select(t => t.Time.ToString());
+        //return result.ToArray();
+        string[] strings = result.ToArray();
+
+        string format = "yyyy'-'MM'-'dd'T'HH'.'mm'.'ss.ff'Z'";
+
+        List<DateTime> dateTimes = new List<DateTime>();
+        foreach (string s in strings)
+        {
+            if (s.Length == 23)
+            {
+                format = "yyyy'-'MM'-'dd'T'HH'.'mm'.'ss.ff'Z'";
+            }
+            else
+            {
+                format = "yyyy'-'MM'-'dd'T'HH'.'mm'.'ss.fff'Z'";
+            }
+
+            DateTime date = DateTime.ParseExact(s, format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None);
+            date = TimeZoneInfo.ConvertTimeFromUtc(date, TimeZoneInfo.Local);
+            dateTimes.Add(date);
+        }
+        //System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None
+
+        return dateTimes.ToArray();
+
+    }
     public async Task<string[]> GetWeeklyActivity()
     {
+        var v = await GetDateTimes();
+
+
 
         var dbResult = await _sessionCollection.Aggregate()
           .Unwind(s => s.Day)
@@ -223,15 +288,16 @@ public class MongoDBRepository : IRepository
         var f = (int)await _playerCollection.Find(f => f.Gender == 'F').CountDocumentsAsync();
         var o = (int)await _playerCollection.Find(f => f.Gender == 'O').CountDocumentsAsync();
         int total = m + f + o;
-        if(total==0)return null;
+        if (total == 0) return null;
         list.Add(new GenderPercentage('M', (float)m / total));
         list.Add(new GenderPercentage('F', (float)f / total));
         list.Add(new GenderPercentage('O', (float)o / total));
         return list.ToArray();
     }
 
-    public async Task<AgePercentage[]> GetAgeDistribution(){
-        var collection =  _playerCollection.AsQueryable();
+    public async Task<AgePercentage[]> GetAgeDistribution()
+    {
+        var collection = _playerCollection.AsQueryable();
         List<AgePercentage> list = new List<AgePercentage>();
         int total = 0;
         DateTime current = DateTime.Now;
@@ -240,23 +306,25 @@ public class MongoDBRepository : IRepository
 
         Console.WriteLine("starting at " + startDate);
         Console.WriteLine("ending at " + endDate);
-        
-        int currentLimit =100;
-        while(startDate < current){
+
+        int currentLimit = 100;
+        while (startDate < current)
+        {
             var ageSum = await (from p in collection
-            where (p.BirthDate > startDate && p.BirthDate < endDate)
-            select p).CountAsync();
-            if(ageSum!=0)
-            list.Add(new AgePercentage(currentLimit-10,currentLimit,ageSum));
+                                where (p.BirthDate > startDate && p.BirthDate < endDate)
+                                select p).CountAsync();
+            if (ageSum != 0)
+                list.Add(new AgePercentage(currentLimit - 10, currentLimit, ageSum));
             startDate = startDate.AddYears(10);
             endDate = endDate.AddYears(10);
-            currentLimit-=10;
-            total+=ageSum;
+            currentLimit -= 10;
+            total += ageSum;
         }
-        for(int i=0; i< list.Count;i++){
-            list[i].Percentage = (float)list[i].Count/total;
+        for (int i = 0; i < list.Count; i++)
+        {
+            list[i].Percentage = (float)list[i].Count / total;
         }
-        
+
         return list.ToArray();
     }
     public async Task<Player[]> GetAllPlayers()

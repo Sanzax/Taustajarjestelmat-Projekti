@@ -17,10 +17,15 @@ public interface IRepository
 
     Task<string[]> GetTopNationalities(int n);
 
+    Task<string[]> GetMostActivePlayers(int n);
+
+    //Task<string[]> GetMostActiveNations(int n);
+
     Task<string[]> GetWeeklyActivity();
 
     Task<string[]> GetDailyActivity();
 
+    Task<DateTime[]> GetDateTimes();
     Task<float?> GetSessionMedianLength();
 
     Task<float?> GetSessionAverageLength();
@@ -44,12 +49,13 @@ public interface IRepository
     Task<float> GetAverageAge();
 
     Task<Player[]> GetAllPlayers();
+    Task<List<Nationality>> GetAllNations();
     Task<Session[]> GetAllSessions();
     Task<int> GetPlayerCount();
     Task<int> GetSessionCount();
     Task<Player> GetPlayer(string id);
     Task<Session> GetSession(string id);
-     Task<AgePercentage[]> GetAgeDistribution();
+    Task<AgePercentage[]> GetAgeDistribution();
 
 
 }
