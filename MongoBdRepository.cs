@@ -30,8 +30,6 @@ public class MongoDBRepository : IRepository
 
     public async Task<Player> CreatePlayer(Player player)
     {
-        player.CreationDate = DateTime.Now;
-        player.Id = Guid.NewGuid().ToString();
         await _playerCollection.InsertOneAsync(player);
         return player;
     }
@@ -48,11 +46,14 @@ public class MongoDBRepository : IRepository
 
     public async Task<Session> CreateSession(Session session)
     {
-        session.EndTime = DateTime.Now;
+        if(GetPlayer(session.playerId) == null)
+        {
+            //Pelaajaa ei ole olemassa
+            //Heitetäänkö error?
+        }
+
         await _sessionCollection.InsertOneAsync(session);
-
         return session;
-
     }
 
 
@@ -154,18 +155,6 @@ public class MongoDBRepository : IRepository
 
         return sum / list.Count;
     }
-
-    /*private async Task<List<float>> GetSessionLengths()
-    {
-        FilterDefinition<Session> filter = Builders<Session>.Filter.Empty;
-        List<Session> sessions = await _sessionCollection.Find(filter).ToListAsync();
-        List<float> sessionLengths = new List<float>();
-        foreach(Session session in sessions)
-        {
-            sessionLengths.Add(session.LengthInSeconds);
-        }
-        return sessionLengths;
-    }*/
 
     private async Task<List<T>> GetListOfPropertyInSession<T>(Func<Session, T> propertyOfSession)
     {
