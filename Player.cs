@@ -8,16 +8,18 @@ public class Player
     public string Id { get; set; }
 
     public DateTime CreationDate { get; set; }
-    public DateTime BirthDate { get; set; } 
+    public DateTime BirthDate { get; set; }
 
     [RegularExpression("[M|F][O]")]
     public char Gender { get; set; }
 
+    public int Sessions { get; set; }
+
     public int Age
-    {  
-        get 
+    {
+        get
         {
-            return (int)((DateTime.Now - BirthDate).TotalDays/365);
+            return (int)((DateTime.Now - BirthDate).TotalDays / 365);
         }
     }
 

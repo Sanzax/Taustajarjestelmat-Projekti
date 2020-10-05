@@ -64,13 +64,7 @@ public class MongoDBRepository : IRepository
     }
     public async Task<string[]> GetTopNationalities(int n)
     {
-        /*   List<NationalityCount> natCounts = await _playerCollection.Aggregate().Project(p => (int)p.Nationality)
-                 .Group(l => l, p => new NationalityCount { nationality = (Nationality)p.Key, Count = p.Sum() })
-                 .SortByDescending(l => l.Count)
-                 .Limit(n)
-                 .ToListAsync();
 
-           return natCounts.ToArray();*/
         var dbResult = await _playerCollection.Aggregate()
         .Unwind(p => p.Nationality)
         .Group(e => e["Nationality"], n => new { Nationality = n.Key, Count = n.Count() })
@@ -78,7 +72,7 @@ public class MongoDBRepository : IRepository
         .Limit(n)
         .ToListAsync();
         var result = dbResult.Select(t => t.Nationality.ToString() + "," + t.Count.ToString());
-        // NationalityCount nc = dbResult.Select(nc.nationality => t.Nationality,)
+
         return result.ToArray();
 
 
@@ -131,6 +125,17 @@ public class MongoDBRepository : IRepository
 
         return dateTimes.ToArray();
 
+    }
+    public async Task<Player> UpdateSessionCount(string id)
+    {
+        var filter = Builders<Player>.Filter.Eq(p => p.Id, id);
+        var sessionUpdate = Builders<Player>.Update.Inc(p => p.Sessions, 1);
+        var options = new FindOneAndUpdateOptions<Player>()
+        {
+            ReturnDocument = ReturnDocument.After
+        };
+        Player p = await _playerCollection.FindOneAndUpdateAsync(filter, sessionUpdate, options);
+        return p;
     }
     /*  public async Task<string[]> GetWeeklyActivity()
       {
@@ -236,17 +241,17 @@ public class MongoDBRepository : IRepository
         return sum / list.Count;
     }
 
-    /*private async Task<List<float>> GetSessionLengths()
+    private async Task<List<float>> GetSessionLengths()
     {
         FilterDefinition<Session> filter = Builders<Session>.Filter.Empty;
         List<Session> sessions = await _sessionCollection.Find(filter).ToListAsync();
         List<float> sessionLengths = new List<float>();
-        foreach(Session session in sessions)
+        foreach (Session session in sessions)
         {
             sessionLengths.Add(session.LengthInSeconds);
         }
         return sessionLengths;
-    }*/
+    }
     private async Task<List<float>> GetAges()
     {
 

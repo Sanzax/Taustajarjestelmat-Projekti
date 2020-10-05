@@ -33,11 +33,11 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 EndTime = DateTime.Now,
                 Wins = newSession.Wins,
                 Deaths = newSession.Deaths,
-                Day = DateTime.Now.DayOfWeek,
+                //   Day = DateTime.Now.DayOfWeek,
                 Hour = DateTime.Now.Hour
 
             };
-
+            await _repository.UpdateSessionCount(newSession.PlayerId);
             return await _repository.CreateSession(session);
         }
 
@@ -120,15 +120,12 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 day.Name = day.Day.ToString();
                 day.Count = 0;
                 week[i] = day;
-
             }
 
             foreach (DateTime d in sessionsTimes)
             {
-
                 int day = (int)d.DayOfWeek;
                 week[day].Count = week[day].Count + 1;
-
 
             }
 

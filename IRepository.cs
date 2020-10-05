@@ -19,6 +19,8 @@ public interface IRepository
 
     Task<string[]> GetMostActivePlayers(int n);
 
+    Task<Player> UpdateSessionCount(string id);
+
     //Task<string[]> GetMostActiveNations(int n);
 
     // Task<string[]> GetWeeklyActivity();
