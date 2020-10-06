@@ -95,31 +95,19 @@ public class MongoDBRepository : IRepository
     {
         var Times = await _sessionCollection.Aggregate()
             .Unwind(s => s.StartTime)
-            .Group(e => e["StartTime"], n => new { Time = n.Key })
+            .Group(e => e["StartString"], n => new { Time = n.Key })
             .ToListAsync();
 
         var result = Times.Select(t => t.Time.ToString());
 
         string[] strings = result.ToArray();
 
-        string format;
 
+        string format = "yyyy':'MM':'dd':'HH':'mm':'ss";
         List<DateTime> dateTimes = new List<DateTime>();
         foreach (string s in strings)
         {
-            if (s.Length == 23)
-            {
-                format = "yyyy'-'MM'-'dd'T'HH'.'mm'.'ss.ff'Z'";
-            }
-            else
-            {
-                format = "yyyy'-'MM'-'dd'T'HH'.'mm'.'ss.fff'Z'";
-            }
-
             DateTime date = DateTime.ParseExact(s, format, CultureInfo.InvariantCulture, DateTimeStyles.None);
-
-
-            // date = TimeZoneInfo.ConvertTimeFromUtc(date, TimeZoneInfo.Local);
             dateTimes.Add(date);
         }
 

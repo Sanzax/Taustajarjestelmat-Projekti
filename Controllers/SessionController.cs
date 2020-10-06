@@ -34,6 +34,9 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 Starts = newSession.Wins + newSession.Deaths,
                 Wins = newSession.Wins,
                 Deaths = newSession.Deaths,
+                StartString = DateTime.Now.Year + ":" + DateTime.Now.Month.ToString("00") + ":"
+                            + DateTime.Now.Day.ToString("00") + ":" + DateTime.Now.Hour.ToString("00")
+                            + ":" + DateTime.Now.Minute.ToString("00") + ":" + DateTime.Now.Second.ToString("00")
 
 
             };
