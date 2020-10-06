@@ -34,8 +34,7 @@ namespace Taustajarjestelmat_Projekti.Controllers
                 Starts = newSession.Wins + newSession.Deaths,
                 Wins = newSession.Wins,
                 Deaths = newSession.Deaths,
-                //   Day = DateTime.Now.DayOfWeek,
-                Hour = DateTime.Now.Hour
+
 
             };
             await _repository.UpdateSessionCount(newSession.PlayerId);

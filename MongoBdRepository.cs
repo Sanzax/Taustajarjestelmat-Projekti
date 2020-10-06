@@ -47,7 +47,7 @@ public class MongoDBRepository : IRepository
 
     public async Task<Session> CreateSession(Session session)
     {
-        if(GetPlayer(session.playerId) == null)
+        if (GetPlayer(session.playerId) == null)
         {
             //Pelaajaa ei ole olemassa
             //Heitetäänkö error?
@@ -99,7 +99,7 @@ public class MongoDBRepository : IRepository
             .ToListAsync();
 
         var result = Times.Select(t => t.Time.ToString());
-        //return result.ToArray();
+
         string[] strings = result.ToArray();
 
         string format;
@@ -119,7 +119,7 @@ public class MongoDBRepository : IRepository
             DateTime date = DateTime.ParseExact(s, format, CultureInfo.InvariantCulture, DateTimeStyles.None);
 
 
-            date = TimeZoneInfo.ConvertTimeFromUtc(date, TimeZoneInfo.Local);
+            // date = TimeZoneInfo.ConvertTimeFromUtc(date, TimeZoneInfo.Local);
             dateTimes.Add(date);
         }
 
@@ -138,35 +138,7 @@ public class MongoDBRepository : IRepository
         Player p = await _playerCollection.FindOneAndUpdateAsync(filter, sessionUpdate, options);
         return p;
     }
-    /*  public async Task<string[]> GetWeeklyActivity()
-      {
-           var v = await GetDateTimes();
 
-
-
-           var dbResult = await _sessionCollection.Aggregate()
-             .Unwind(s => s.Day)
-             .Group(e => e["Day"], n => new { Day = n.Key, Count = n.Count() })
-             .SortByDescending(e => e.Count)
-             .Limit(7)
-             .ToListAsync();
-           var result = dbResult.Select(t => t.Day.ToString() + "," + t.Count.ToString());
-           return result.ToArray();
-          return null;
-      }*/
-
-    /*  public async Task<string[]> GetDailyActivity()
-      {
-           var dbResult = await _sessionCollection.Aggregate()
-               .Unwind(s => s.Hour)
-               .Group(e => e["Hour"], n => new { Hour = n.Key, Count = n.Count() })
-               .SortByDescending(e => e.Count)
-               .Limit(24)
-               .ToListAsync();
-           var result = dbResult.Select(t => t.Hour.ToString() + "," + t.Count.ToString());
-           return result.ToArray();
-          return null;
-      }*/
     public async Task<float?> GetSessionMedianLength()
     {
         return MedianFromList(await GetListOfPropertyInSession(session => (float)session.LengthInSeconds));

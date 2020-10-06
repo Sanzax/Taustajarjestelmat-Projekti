@@ -103,43 +103,18 @@ namespace Taustajarjestelmat_Projekti.Controllers
 
             return players;
 
-            /*   for(int i=0;i<players.Length;i++)
-               {
-                   PlayerActivityCount player = new PlayerActivityCount();
-                   player.Player=
 
-               }*/
-
-            /* string[] players = await _repository.GetMostActivePlayers(n);
-
-             PlayerActivityCount[] activePlayers = new PlayerActivityCount[n];
-             string separator = ",";
-             int count = 2;
-             for (int i = 0; i < players.Length; i++)
-             {
-                 PlayerActivityCount player = new PlayerActivityCount();
-                 String[] tempStrings = new string[2];
-                 tempStrings = players[i].Split(separator, count);
-
-                 player.Player = await GetPlayer(tempStrings[0]);
-                 if (tempStrings.Length == 1)
-                     player.Sessions = 0;
-                 player.Sessions = Int32.Parse(tempStrings[1]);
-
-                 activePlayers[i] = player;
-             }
-
-             return activePlayers;*/
         }
 
         [HttpGet]
         [Route("GetMostActiveNations/{n}")]
         public async Task<NationalActivity[]> GetMostActiveNations(int n)
         {
-            int c = await GetPlayerCount();
-            Player[] players = await GetMostActivePlayers(c);
+
+            Player[] players = await _repository.GetAllPlayers();
             List<NationalActivity> natActivity = new List<NationalActivity>();
             List<int> checkList = new List<int>();
+
             for (int i = 0; i < players.Length; i++)
             {
                 if (players[i] == null)
