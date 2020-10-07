@@ -107,6 +107,7 @@ public class MongoDBRepository : IRepository
         List<DateTime> dateTimes = new List<DateTime>();
         foreach (string s in strings)
         {
+
             DateTime date = DateTime.ParseExact(s, format, CultureInfo.InvariantCulture, DateTimeStyles.None);
             dateTimes.Add(date);
         }

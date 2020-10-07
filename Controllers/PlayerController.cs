@@ -30,6 +30,7 @@ namespace Taustajarjestelmat_Projekti.Controllers
             {
                 //Syntymäpäivä oli tulevaisuudesta
                 //Heitetäänkö jonkilainen error?
+                throw new InvalidDateException();
             }
 
             Player player = new Player()

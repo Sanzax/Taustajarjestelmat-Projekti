@@ -25,6 +25,10 @@ public class ErrorHandlerMiddleware
             Console.WriteLine("Invalid Id.");
             context.Response.StatusCode = 404;
         }
+        catch (InvalidDateException)
+        {
+            Console.WriteLine("Invalid date");
+        }
     }
 }
 public static class MyMiddlewareExtensions
