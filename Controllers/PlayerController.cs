@@ -56,6 +56,7 @@ namespace Taustajarjestelmat_Projekti.Controllers
             return await _repository.ModifyPlayer(id, modifiedPlayer);
 
         }
+
         [HttpGet]
         [Route("GetAllNationalities")]
         public async Task<List<string>> GetallNationalities()
@@ -68,6 +69,7 @@ namespace Taustajarjestelmat_Projekti.Controllers
             }
             return stringList;
         }
+
         [HttpGet]
         [Route("GetTopNationalities/{n}")]
         public async Task<NationalityCount[]> GetTopNationalities(int n)
